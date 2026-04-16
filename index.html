@@ -1,715 +1,1518 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ATELIER DETAILING · Премиум детейлинг</title>
-  <!-- Подключаем элегантный шрифт -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-  <!-- Иконки Feather (чистые и минималистичные) -->
-  <script src="https://unpkg.com/feather-icons"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AXIOM DETAIL — детейлинг-центр в Москве | Полировка, керамика, химчистка</title>
+  <meta name="description" content="Детейлинг-центр AXIOM DETAIL: полировка кузова, химчистка салона, керамика, оклейка пленкой. Онлайн-калькулятор цены и запись за 1 минуту." />
+  <meta name="theme-color" content="#0f1720" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:title" content="AXIOM DETAIL — детейлинг и защита авто" />
+  <meta property="og:description" content="Фото до/после, калькулятор стоимости, запись онлайн и быстрый контакт через WhatsApp/Telegram." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoBodyShop",
+    "name": "AXIOM DETAIL",
+    "description": "Детейлинг-центр: полировка, керамика, химчистка, оклейка",
+    "telephone": "+7-999-555-11-22",
+    "priceRange": "$$",
+    "url": "https://example.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Ленинградский проспект, 37",
+      "addressLocality": "Москва",
+      "addressCountry": "RU"
+    },
+    "openingHours": "Mo-Su 09:00-22:00",
+    "sameAs": [
+      "https://wa.me/79995551122",
+      "https://t.me/example"
+    ],
+    "makesOffer": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Полировка кузова"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Керамическое покрытие"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Химчистка салона"
+        }
+      }
+    ]
+  }
+  </script>
   <style>
+    :root {
+      --bg: #f2f5f7;
+      --bg-strong: #dce4ea;
+      --surface: #ffffff;
+      --surface-alt: #eef3f7;
+      --ink: #131a23;
+      --muted: #4f5d6c;
+      --accent: #ff5a1f;
+      --accent-2: #0f8fa7;
+      --line: #cfd9e3;
+      --radius: 18px;
+      --shadow: 0 16px 34px rgba(21, 29, 38, 0.12);
+      --container: min(1180px, calc(100% - 2rem));
+      --transition: 220ms cubic-bezier(.2, .8, .2, 1);
+    }
+
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background-color: #0b0e12;
-      font-family: 'Inter', sans-serif;
-      color: #fff;
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4)),
+        repeating-linear-gradient(-45deg, #ebf0f4 0 12px, #f4f7fa 12px 24px);
       line-height: 1.5;
-      overflow-x: hidden;
     }
 
-    /* Плавное появление */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.9s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.9s cubic-bezier(0.2, 0.9, 0.3, 1);
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Кастомный скроллбар */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #1a1f28; }
-    ::-webkit-scrollbar-thumb { background: #3e4d5e; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #5f7a99; }
-
-    /* Контейнер */
-    .container {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 40px;
-      position: relative;
-      z-index: 5;
-    }
-
-    /* ----- АНИМИРОВАННЫЙ ФОН (БЛИКИ / ОТРАЖЕНИЯ) ----- */
-    .bg-shimmer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      background: radial-gradient(circle at 20% 30%, rgba(0, 180, 255, 0.03) 0%, transparent 40%),
-                  radial-gradient(circle at 80% 70%, rgba(200, 220, 255, 0.04) 0%, transparent 50%);
-    }
-
-    .bg-shimmer::before {
-      content: "";
+    .skip-link {
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(125deg, transparent 0%, rgba(255,255,255,0.02) 30%, rgba(180, 220, 255, 0.05) 50%, transparent 70%);
-      animation: shimmerMove 22s infinite linear;
-    }
-
-    @keyframes shimmerMove {
-      0% { transform: translate(-30%, -30%) rotate(0deg); }
-      100% { transform: translate(30%, 30%) rotate(8deg); }
-    }
-
-    /* Мерцающие искры (через canvas) */
-    #sparkleCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* ----- ХЕДЕР ----- */
-    .header {
-      position: relative;
-      z-index: 10;
-      padding: 24px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: rgba(8, 12, 18, 0.3);
-    }
-
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.9rem;
-      font-weight: 500;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #fff 0%, #b0d0ff 80%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 25px rgba(0,160,255,0.4);
-    }
-
-    .nav a {
-      color: #e0e9f5;
-      margin-left: 42px;
-      text-decoration: none;
-      font-weight: 400;
-      font-size: 1rem;
-      letter-spacing: 0.5px;
-      transition: 0.25s;
-      border-bottom: 1px solid transparent;
-      padding-bottom: 4px;
-    }
-
-    .nav a:hover {
+      left: 0.5rem;
+      top: -300px;
+      background: #0e151f;
       color: #fff;
-      border-bottom-color: #6eb5ff;
-      text-shadow: 0 0 12px #6eb5ff88;
+      padding: 0.7rem 0.95rem;
+      border-radius: 0.45rem;
+      z-index: 100;
     }
 
-    /* ----- HERO ----- */
-    .hero {
-      position: relative;
-      z-index: 8;
-      min-height: 90vh;
-      display: flex;
+    .skip-link:focus {
+      top: 0.5rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: var(--container);
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 4.8rem 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
       align-items: center;
-      padding: 40px 0 80px;
-    }
-
-    .hero-content {
-      max-width: 700px;
-    }
-
-    .hero-subtitle {
-      font-weight: 400;
-      letter-spacing: 6px;
+      gap: 0.5rem;
       text-transform: uppercase;
-      color: #aac4e2;
-      margin-bottom: 20px;
-      font-size: 0.9rem;
-      word-spacing: 8px;
+      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      color: var(--accent-2);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
     }
 
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 5.2rem;
-      font-weight: 500;
-      line-height: 1.1;
-      margin-bottom: 24px;
-      background: linear-gradient(to right, #fff, #e0edff, #b4d0ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    .eyebrow::before {
+      content: "";
+      width: 1.7rem;
+      height: 2px;
+      background: currentColor;
     }
 
-    .hero-desc {
-      font-size: 1.25rem;
-      color: #b8cbe0;
-      max-width: 550px;
-      margin-bottom: 40px;
-      font-weight: 300;
-      backdrop-filter: blur(5px);
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Rajdhani", sans-serif;
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 4.3rem);
+      max-width: 12.5ch;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 3.8vw, 2.9rem);
+      max-width: 18ch;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
     }
 
     .btn {
-      display: inline-block;
-      background: rgba(20, 35, 55, 0.45);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(110, 181, 255, 0.35);
-      padding: 16px 44px;
-      border-radius: 60px;
-      color: white;
-      font-weight: 500;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border-radius: 999px;
+      padding: 0.78rem 1.2rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(20, 28, 37, 0.18);
+    }
+
+    .btn:focus-visible,
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #1254c5;
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(120deg, var(--accent), #ff7a49);
+    }
+
+    .btn-ghost {
+      color: var(--ink);
+      border-color: var(--line);
+      background: #fff;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      border-bottom: 1px solid rgba(178, 192, 206, 0.6);
+      backdrop-filter: blur(10px);
+      background: rgba(247, 250, 252, 0.88);
+    }
+
+    .topbar-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: "Rajdhani", sans-serif;
       text-transform: uppercase;
-      text-decoration: none;
-      box-shadow: 0 15px 30px -8px rgba(0,0,0,0.5), 0 0 0 0 rgba(110,181,255,0.3) inset;
-      transition: all 0.4s;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 0.92rem;
+    }
+
+    .brand-mark {
+      width: 2.2rem;
+      height: 2.2rem;
+      display: grid;
+      place-items: center;
+      border-radius: 0.55rem;
+      color: #fff;
+      background: linear-gradient(135deg, #131a23, #273444);
+      box-shadow: 0 8px 16px rgba(20, 27, 36, 0.28);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-list {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link {
+      display: inline-block;
+      border-radius: 0.55rem;
+      padding: 0.48rem 0.66rem;
+      color: #293544;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background var(--transition);
+    }
+
+    .nav-link:hover {
+      background: #fff;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 2.6rem;
+      height: 2.6rem;
+      border: 1px solid var(--line);
+      border-radius: 0.6rem;
+      background: #fff;
+      color: var(--ink);
+      font-size: 1.15rem;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 2rem 0 4rem;
+    }
+
+    .breadcrumbs {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.38rem 0.75rem;
+      font-size: 0.8rem;
+      color: #5d6a78;
+      background: rgba(255, 255, 255, 0.78);
+      margin-bottom: 1rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .hero-card {
+      border: 1px solid #ced8e2;
+      border-radius: calc(var(--radius) + 4px);
+      background:
+        linear-gradient(150deg, rgba(255,255,255,0.95), rgba(232, 240, 246, 0.92));
+      box-shadow: var(--shadow);
+      padding: 1.6rem;
       position: relative;
       overflow: hidden;
+      isolation: isolate;
     }
 
-    .btn::after {
+    .hero-card::after {
       content: "";
       position: absolute;
-      top: -50%;
-      left: -60%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.5s;
-      transform: rotate(25deg);
+      inset: auto -8% -45% auto;
+      width: 22rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(15, 143, 167, 0.34), rgba(15, 143, 167, 0));
+      z-index: -1;
     }
 
-    .btn:hover {
-      border-color: #9ac4ff;
-      box-shadow: 0 20px 40px -8px #000000b0, 0 0 20px #3f9eff55;
-      background: rgba(30, 50, 75, 0.6);
-      transform: scale(1.02);
+    .hero p {
+      max-width: 58ch;
+      margin: 0.95rem 0 1.2rem;
+      color: #3e4c5a;
     }
 
-    .btn:hover::after {
-      opacity: 1;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-bottom: 1.2rem;
     }
 
-    /* Анимированная машина на фоне (отражение) */
-    .hero-visual {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 55%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none;
+    .hero-points {
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .car-reflection {
-      position: absolute;
-      right: -5%;
-      bottom: 5%;
-      width: 110%;
-      height: auto;
-      opacity: 0.75;
-      filter: drop-shadow(0 30px 30px #00000080) brightness(1.2) contrast(1.1);
-      animation: floatCar 7s ease-in-out infinite;
+    .hero-point {
+      border: 1px solid #cfdae4;
+      border-radius: 0.85rem;
+      background: rgba(255,255,255,0.72);
+      padding: 0.7rem;
     }
 
-    @keyframes floatCar {
-      0% { transform: translateY(0px) rotate(0.5deg); }
-      50% { transform: translateY(-12px) rotate(-0.3deg); }
-      100% { transform: translateY(0px) rotate(0.5deg); }
+    .hero-point strong {
+      display: block;
+      font-size: 1.12rem;
+      color: #18212b;
+      margin-bottom: 0.2rem;
     }
 
-    /* Линии отражений */
-    .reflection-line {
-      position: absolute;
-      width: 250px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #b0dcff, #ffffff, #b0dcff, transparent);
-      filter: blur(3px);
-      opacity: 0.4;
+    .hero-side {
+      display: grid;
+      gap: 0.8rem;
+      align-content: start;
     }
 
-    /* ----- СЕКЦИИ ----- */
-    section {
-      position: relative;
-      z-index: 8;
-      padding: 120px 0;
+    .panel {
+      border: 1px solid #cfdae4;
+      border-radius: 1rem;
+      background: #fff;
+      padding: 1rem;
+      box-shadow: 0 9px 20px rgba(24, 32, 42, 0.09);
     }
 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      font-weight: 500;
-      margin-bottom: 20px;
-      background: linear-gradient(to bottom, #fff, #bed9ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .panel h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.65rem;
     }
 
-    .section-sub {
-      color: #98aec9;
-      max-width: 600px;
-      margin-bottom: 60px;
+    .list {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .list-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px dashed #dde6ee;
+      padding-bottom: 0.4rem;
+      font-size: 0.93rem;
+    }
+
+    .list-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      background: #e3f5f9;
+      color: #006f82;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.28rem 0.52rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .section-head {
+      margin-bottom: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.9rem;
+    }
+
+    .section-head p {
+      max-width: 46ch;
+    }
+
+    .services-grid,
+    .reviews-grid,
+    .blog-grid {
+      display: grid;
+      gap: 0.85rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid #cfdae4;
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 1rem;
+      box-shadow: 0 10px 22px rgba(23, 30, 40, 0.08);
+    }
+
+    .icon {
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 0.6rem;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #192431, #2f4052);
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .card h3 {
+      margin-bottom: 0.35rem;
       font-size: 1.2rem;
     }
 
-    /* Карточки услуг — стекло с отражениями */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 35px;
-    }
-
-    .service-card {
-      background: rgba(18, 28, 40, 0.45);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 36px;
-      padding: 40px 30px;
-      box-shadow: 0 30px 45px -15px #000000b0, inset 0 0 0 1px rgba(160, 200, 255, 0.05);
-      transition: all 0.45s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .service-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 20%, rgba(210, 235, 255, 0.12), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.6s;
-    }
-
-    .service-card:hover {
-      transform: translateY(-12px);
-      border-color: rgba(110, 181, 255, 0.25);
-      box-shadow: 0 40px 60px -15px #000000, 0 0 0 1px #4a8fd450 inset;
-    }
-
-    .service-card:hover::before {
-      opacity: 1;
-    }
-
-    .service-icon {
-      margin-bottom: 30px;
-      color: #b4d6ff;
-      filter: drop-shadow(0 0 15px #3f8eff88);
-    }
-
-    .service-card h3 {
-      font-size: 1.9rem;
-      font-weight: 400;
-      font-family: 'Playfair Display', serif;
-      margin-bottom: 15px;
-      letter-spacing: -0.01em;
-    }
-
-    .service-card p {
-      color: #b8cbe0;
-      font-weight: 300;
-    }
-
-    /* Блок с преимуществами (отражения) */
-    .features {
-      display: flex;
-      gap: 50px;
-      margin-top: 70px;
-    }
-
-    .feature-item {
-      flex: 1;
-      padding: 30px 0;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .feature-number {
-      font-size: 3.5rem;
-      font-weight: 200;
-      color: #bdd6ff;
-      opacity: 0.7;
-      margin-bottom: 10px;
-    }
-
-    /* Галерея-отражение */
-    .gallery-showcase {
-      display: flex;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    .gallery-item {
-      flex: 1;
-      height: 260px;
-      border-radius: 40px;
-      background: rgba(25, 35, 50, 0.5);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.05);
-      box-shadow: 0 25px 35px -12px black;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .gallery-item::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-      transform: translateX(-100%);
-      animation: gloss 8s infinite;
-    }
-
-    @keyframes gloss {
-      0%, 15% { transform: translateX(-100%); }
-      45%, 55% { transform: translateX(0%); }
-      85%, 100% { transform: translateX(-100%); }
-    }
-
-    /* Футер */
-    .footer {
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 40px 0;
-      backdrop-filter: blur(10px);
-      background: rgba(0,0,0,0.15);
-    }
-
-    .footer-content {
+    .service-meta {
+      margin-top: 0.72rem;
       display: flex;
       justify-content: space-between;
-      color: #9aafc9;
+      gap: 0.8rem;
+      font-size: 0.88rem;
+      color: #41505f;
+      font-weight: 700;
     }
 
-    /* Адаптив */
-    @media (max-width: 1000px) {
-      .hero-title { font-size: 4rem; }
-      .services-grid { grid-template-columns: 1fr; }
-      .container { padding: 0 24px; }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.95rem;
     }
 
-    /* Скролл-анимации наблюдатель */
-    .hidden-init {
+    .filter-btn {
+      border: 1px solid #c9d5e0;
+      border-radius: 999px;
+      background: #fff;
+      color: #304151;
+      font-size: 0.83rem;
+      font-weight: 700;
+      padding: 0.4rem 0.72rem;
+      cursor: pointer;
+    }
+
+    .filter-btn[aria-pressed="true"] {
+      color: #fff;
+      border-color: transparent;
+      background: #182230;
+    }
+
+    .cases-grid {
+      display: grid;
+      gap: 0.85rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .compare-card {
+      border: 1px solid #ced9e3;
+      border-radius: 1rem;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(23, 30, 39, 0.08);
+    }
+
+    .compare {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      --pos: 55%;
+      overflow: hidden;
+      background: #d9e0e7;
+    }
+
+    .compare img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .compare .before {
+      filter: grayscale(0.95) contrast(0.9) brightness(0.78);
+      transform: scale(1.02);
+    }
+
+    .compare .after-wrap {
+      position: absolute;
+      inset: 0;
+      width: var(--pos);
+      overflow: hidden;
+      border-right: 2px solid #fff;
+    }
+
+    .compare .after-wrap img {
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      object-position: left center;
+    }
+
+    .compare-range {
+      position: absolute;
+      inset: auto 0 0 0;
+      width: 100%;
+      margin: 0;
+      height: 100%;
       opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.9s cubic-bezier(0.2, 0.9, 0.2, 1);
+      cursor: ew-resize;
     }
-    .visible-animate {
-      opacity: 1 !important;
-      transform: translateY(0) !important;
+
+    .compare-tag {
+      position: absolute;
+      top: 0.55rem;
+      border-radius: 999px;
+      font-size: 0.69rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.5rem;
+      backdrop-filter: blur(2px);
+    }
+
+    .compare-tag.before {
+      left: 0.6rem;
+      background: rgba(18, 24, 30, 0.66);
+      color: #fff;
+    }
+
+    .compare-tag.after {
+      right: 0.6rem;
+      background: rgba(255, 91, 34, 0.86);
+      color: #fff;
+    }
+
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--pos);
+      transform: translateX(-50%);
+      width: 2rem;
+      pointer-events: none;
+      display: grid;
+      place-items: center;
+    }
+
+    .compare-handle::before {
+      content: "↔";
+      width: 1.7rem;
+      height: 1.7rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #172333;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d6e0e9;
+      box-shadow: 0 8px 18px rgba(22, 32, 43, 0.2);
+    }
+
+    .case-body {
+      padding: 0.8rem;
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    .case-title {
+      color: #1e2a38;
+      font-weight: 700;
+    }
+
+    .calc-wrap {
+      display: grid;
+      gap: 0.85rem;
+      grid-template-columns: 1fr 0.85fr;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.34rem;
+      margin-bottom: 0.78rem;
+    }
+
+    label {
+      font-size: 0.88rem;
+      color: #364554;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #c9d4de;
+      border-radius: 0.75rem;
+      padding: 0.67rem 0.78rem;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #97a9ba;
+      box-shadow: 0 0 0 3px rgba(15, 143, 167, 0.14);
+      outline: none;
+    }
+
+    .checks {
+      display: grid;
+      gap: 0.44rem;
+    }
+
+    .check {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+      color: #405060;
+      font-size: 0.9rem;
+    }
+
+    .check input {
+      width: 0.95rem;
+      height: 0.95rem;
+      margin-top: 0.16rem;
+    }
+
+    .summary {
+      border: 1px solid #c9d4de;
+      border-radius: 1rem;
+      background: linear-gradient(155deg, #fff, #edf4f8);
+      padding: 1rem;
+      display: grid;
+      gap: 0.52rem;
+      align-content: start;
+    }
+
+    .price {
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      line-height: 1;
+      color: #18222f;
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 700;
+    }
+
+    .reviews-grid .card {
+      background: linear-gradient(160deg, #fff, #f0f5f9);
+    }
+
+    .author {
+      margin-top: 0.6rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #3f4f5d;
+    }
+
+    details {
+      border: 1px solid #cfd8e2;
+      border-radius: 0.82rem;
+      background: #fff;
+      padding: 0.72rem 0.8rem;
+    }
+
+    details + details {
+      margin-top: 0.55rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #253445;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details p {
+      margin-top: 0.5rem;
+      max-width: 70ch;
+    }
+
+    .blog-media {
+      border-radius: 0.72rem;
+      aspect-ratio: 16 / 10;
+      margin-bottom: 0.7rem;
+      object-fit: cover;
+      width: 100%;
+      background: #d2dde7;
+    }
+
+    .booking {
+      background: linear-gradient(180deg, #ecf3f8, #f7fbff);
+      border-top: 1px solid #c8d4df;
+      border-bottom: 1px solid #c8d4df;
+    }
+
+    .booking-grid,
+    .contacts-grid {
+      display: grid;
+      gap: 0.85rem;
+      grid-template-columns: 1fr 0.9fr;
+      align-items: start;
+    }
+
+    .map {
+      border: 1px solid #c8d4df;
+      border-radius: 1rem;
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.84)),
+        repeating-linear-gradient(35deg, #dce5ed 0 10px, #e6edf3 10px 20px);
+      padding: 1rem;
+    }
+
+    .success {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0d7e92;
+      min-height: 1.2rem;
+      margin-top: 0.52rem;
+    }
+
+    .legal {
+      margin-top: 0.85rem;
+      font-size: 0.77rem;
+      color: #62707e;
+      max-width: 58ch;
+    }
+
+    footer {
+      padding: 1.3rem 0 3rem;
+    }
+
+    .footer-grid {
+      border-top: 1px solid #cad6e2;
+      padding-top: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.65rem;
+      color: #5b6876;
+      font-size: 0.88rem;
+    }
+
+    .sticky {
+      position: fixed;
+      right: 0.75rem;
+      bottom: 0.75rem;
+      display: grid;
+      gap: 0.4rem;
+      z-index: 48;
+    }
+
+    .sticky a {
+      border: 1px solid #c8d3de;
+      background: #fff;
+      border-radius: 999px;
+      padding: 0.53rem 0.66rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #233241;
+      box-shadow: 0 7px 18px rgba(22, 29, 38, 0.17);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 420ms ease, transform 420ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 1020px) {
+      .menu-toggle {
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .nav {
+        position: relative;
+      }
+
+      .nav-list {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: calc(100% + 0.55rem);
+        width: min(86vw, 18rem);
+        border-radius: 0.9rem;
+        border: 1px solid #cad5df;
+        background: #fff;
+        box-shadow: var(--shadow);
+        padding: 0.5rem;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-list.open {
+        display: flex;
+      }
+
+      .hero-grid,
+      .calc-wrap,
+      .booking-grid,
+      .contacts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid,
+      .cases-grid,
+      .reviews-grid,
+      .blog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-points {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .section {
+        padding: 3.5rem 0;
+      }
+
+      .services-grid,
+      .cases-grid,
+      .reviews-grid,
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card,
+      .panel,
+      .card {
+        padding: 0.9rem;
+      }
+
+      .topbar-inner {
+        min-height: 70px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
     }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Перейти к контенту</a>
 
-<!-- Фоновые эффекты -->
-<div class="bg-shimmer"></div>
-<canvas id="sparkleCanvas"></canvas>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#home" aria-label="AXIOM DETAIL, главная">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        AXIOM DETAIL
+      </a>
 
-<!-- Хедер -->
-<header class="header">
-  <div class="container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-    <div class="logo">◈ REFLECT</div>
-    <div class="nav">
-      <a href="#">Главная</a>
-      <a href="#">Услуги</a>
-      <a href="#">Портфолио</a>
-      <a href="#">Контакты</a>
+      <nav class="nav" aria-label="Главная навигация">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">☰</button>
+        <ul class="nav-list" id="main-nav">
+          <li><a class="nav-link" href="#services">Услуги</a></li>
+          <li><a class="nav-link" href="#cases">До/После</a></li>
+          <li><a class="nav-link" href="#calc">Калькулятор</a></li>
+          <li><a class="nav-link" href="#reviews">Отзывы</a></li>
+          <li><a class="nav-link" href="#contacts">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn-primary" href="#booking">Записаться</a>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-content hidden-init">
-      <div class="hero-subtitle">искусство отражений</div>
-      <h1 class="hero-title">Детейлинг<br>премиум-класса</h1>
-      <p class="hero-desc">Восстановление блеска, глубины цвета и защита кузова на молекулярном уровне. Ваш автомобиль заслуживает безупречности.</p>
-      <a href="#" class="btn">Записаться</a>
+  <main id="main-content">
+    <section class="hero" id="home">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Хлебные крошки">
+          <span>Главная</span>
+          <span aria-hidden="true">›</span>
+          <span>Детейлинг-центр</span>
+        </nav>
+
+        <div class="hero-grid">
+          <article class="hero-card reveal">
+            <span class="eyebrow">Детейлинг в Москве</span>
+            <h1>Возвращаем лаку глубину, салону свежесть, авто — вау-эффект</h1>
+            <p>
+              Полировка, керамика, химчистка и защитные пленки с фото «до/после». Прозрачная смета,
+              честные сроки и запись онлайн без звонков.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#booking">Онлайн-запись</a>
+              <a class="btn btn-ghost" href="#cases">Смотреть кейсы</a>
+            </div>
+
+            <div class="hero-points" role="list" aria-label="Преимущества центра">
+              <div class="hero-point" role="listitem">
+                <strong>2 700+</strong>
+                <span>машин обслужено</span>
+              </div>
+              <div class="hero-point" role="listitem">
+                <strong>4.9 / 5</strong>
+                <span>рейтинг клиентов</span>
+              </div>
+              <div class="hero-point" role="listitem">
+                <strong>1 год</strong>
+                <span>гарантия на керамику</span>
+              </div>
+            </div>
+          </article>
+
+          <aside class="hero-side">
+            <article class="panel reveal">
+              <span class="badge">Сегодня</span>
+              <h3>Свободные окна</h3>
+              <div class="list">
+                <div class="list-row"><span>Комплекс + химчистка</span><strong>11:30</strong></div>
+                <div class="list-row"><span>Полировка + керамика</span><strong>15:00</strong></div>
+                <div class="list-row"><span>Оклейка зон риска</span><strong>19:40</strong></div>
+              </div>
+            </article>
+
+            <article class="panel reveal">
+              <h3>Быстрый контакт</h3>
+              <div class="list">
+                <div class="list-row"><span>Телефон</span><a href="tel:+79995551122">+7 (999) 555-11-22</a></div>
+                <div class="list-row"><span>Адрес</span><span>Ленинградский пр-т, 37</span></div>
+                <div class="list-row"><span>Режим</span><span>09:00–22:00</span></div>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:0.45rem; margin-top:0.75rem;">
+                <a class="btn btn-ghost" href="https://wa.me/79995551122" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <a class="btn btn-ghost" href="https://t.me/example" target="_blank" rel="noopener noreferrer">Telegram</a>
+              </div>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Услуги</span>
+            <h2>Ключевые направления детейлинга</h2>
+          </div>
+          <p>Каждая услуга имеет отдельную посадочную страницу, кейсы и калькуляцию по параметрам авто.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true">✦</div>
+            <h3>Полировка кузова</h3>
+            <p>Удаление рисок и паутинки, восстановление глубины цвета и зеркального блеска.</p>
+            <div class="service-meta"><span>от 6 часов</span><strong>от 14 900 ₽</strong></div>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true">⛨</div>
+            <h3>Керамическая защита</h3>
+            <p>Многослойная защита от реагентов, УФ и мелких загрязнений на 12+ месяцев.</p>
+            <div class="service-meta"><span>1-2 дня</span><strong>от 22 000 ₽</strong></div>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true">✧</div>
+            <h3>Химчистка салона</h3>
+            <p>Глубокая чистка кожи, ткани и пластика с нейтрализацией запахов.</p>
+            <div class="service-meta"><span>5-8 часов</span><strong>от 11 000 ₽</strong></div>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true">◫</div>
+            <h3>Оклейка PPF-пленкой</h3>
+            <p>Защита зон риска или кузова целиком прозрачной полиуретановой пленкой.</p>
+            <div class="service-meta"><span>1-4 дня</span><strong>от 19 000 ₽</strong></div>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true">◉</div>
+            <h3>Детейлинг-мойка</h3>
+            <p>Безопасная двухфазная мойка с продувкой и финальным консервирующим составом.</p>
+            <div class="service-meta"><span>1.5 часа</span><strong>от 2 900 ₽</strong></div>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true">⚙</div>
+            <h3>Предпродажная подготовка</h3>
+            <p>Пакет из 8 этапов: визуал, салон, колеса, фото-подготовка и защита.</p>
+            <div class="service-meta"><span>1 день</span><strong>от 18 500 ₽</strong></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cases">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Портфолио</span>
+            <h2>Кейсы «до / после» по услугам</h2>
+          </div>
+          <p>Переключайте категории и двигайте ползунок, чтобы увидеть реальную разницу.</p>
+        </div>
+
+        <div class="filters" role="toolbar" aria-label="Фильтры кейсов">
+          <button class="filter-btn" data-filter="all" aria-pressed="true">Все</button>
+          <button class="filter-btn" data-filter="polish" aria-pressed="false">Полировка</button>
+          <button class="filter-btn" data-filter="interior" aria-pressed="false">Химчистка</button>
+          <button class="filter-btn" data-filter="coat" aria-pressed="false">Керамика</button>
+        </div>
+
+        <div class="cases-grid">
+          <article class="compare-card reveal" data-category="polish">
+            <div class="compare" style="--pos:56%;">
+              <img class="before" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=70" alt="Автомобиль до полировки" loading="lazy" />
+              <div class="after-wrap">
+                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80" alt="Автомобиль после полировки" loading="lazy" />
+              </div>
+              <span class="compare-tag before">До</span>
+              <span class="compare-tag after">После</span>
+              <span class="compare-handle" aria-hidden="true"></span>
+              <input class="compare-range" type="range" min="5" max="95" value="56" aria-label="Сравнение до и после" />
+            </div>
+            <div class="case-body">
+              <div class="case-title">Audi A6 — абразив + финиш</div>
+              <p>Убрали 78% поверхностных дефектов ЛКП за 9 часов.</p>
+            </div>
+          </article>
+
+          <article class="compare-card reveal" data-category="interior">
+            <div class="compare" style="--pos:50%;">
+              <img class="before" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=70" alt="Салон до химчистки" loading="lazy" />
+              <div class="after-wrap">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=82" alt="Салон после химчистки" loading="lazy" />
+              </div>
+              <span class="compare-tag before">До</span>
+              <span class="compare-tag after">После</span>
+              <span class="compare-handle" aria-hidden="true"></span>
+              <input class="compare-range" type="range" min="5" max="95" value="50" aria-label="Сравнение до и после" />
+            </div>
+            <div class="case-body">
+              <div class="case-title">BMW X5 — глубокая химчистка</div>
+              <p>Полная очистка кожи и потолка, устранение запахов.</p>
+            </div>
+          </article>
+
+          <article class="compare-card reveal" data-category="coat">
+            <div class="compare" style="--pos:62%;">
+              <img class="before" src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1200&q=70" alt="Кузов до нанесения керамики" loading="lazy" />
+              <div class="after-wrap">
+                <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1200&q=80" alt="Кузов после нанесения керамики" loading="lazy" />
+              </div>
+              <span class="compare-tag before">До</span>
+              <span class="compare-tag after">После</span>
+              <span class="compare-handle" aria-hidden="true"></span>
+              <input class="compare-range" type="range" min="5" max="95" value="62" aria-label="Сравнение до и после" />
+            </div>
+            <div class="case-body">
+              <div class="case-title">Mercedes GLE — керамика 2 слоя</div>
+              <p>Гидрофобный эффект и защита ЛКП от реагентов.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="calc">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Калькулятор</span>
+            <h2>Рассчитайте стоимость онлайн</h2>
+          </div>
+          <p>Оценка в 2 шага: класс автомобиля и нужные услуги. Точную смету подтверждаем после осмотра.</p>
+        </div>
+
+        <div class="calc-wrap">
+          <form class="card reveal" id="calcForm" aria-label="Калькулятор услуг">
+            <div class="field">
+              <label for="carClass">Класс авто</label>
+              <select id="carClass" name="carClass">
+                <option value="sedan">Седан / хэтчбек</option>
+                <option value="suv">Кроссовер / SUV</option>
+                <option value="premium">Премиум / большой SUV</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Выберите услуги</label>
+              <div class="checks">
+                <label class="check"><input type="checkbox" data-service="14900" checked /> Полировка кузова (+14 900 ₽)</label>
+                <label class="check"><input type="checkbox" data-service="22000" /> Керамическая защита (+22 000 ₽)</label>
+                <label class="check"><input type="checkbox" data-service="11000" /> Химчистка салона (+11 000 ₽)</label>
+                <label class="check"><input type="checkbox" data-service="19000" /> Оклейка зон риска (+19 000 ₽)</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="check"><input id="express" type="checkbox" /> Срочное выполнение за 24 часа (+20%)</label>
+            </div>
+          </form>
+
+          <aside class="summary reveal" aria-live="polite">
+            <span class="badge">Предварительная оценка</span>
+            <p>Класс авто:</p>
+            <strong id="summaryClass">Седан / хэтчбек</strong>
+            <p>Выбранных услуг:</p>
+            <strong id="summaryCount">1</strong>
+            <p>Ориентировочная стоимость:</p>
+            <div class="price" id="summaryPrice">14 900 ₽</div>
+            <a class="btn btn-primary" href="#booking">Оформить заявку</a>
+            <p style="font-size:0.82rem;">Данные из калькулятора можно передать в CRM вместе с формой заявки.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Отзывы</span>
+            <h2>Что говорят клиенты после работ</h2>
+          </div>
+          <p>Реальные комментарии о результате, скорости и прозрачности расчета.</p>
+        </div>
+
+        <div class="reviews-grid">
+          <article class="card reveal">
+            <p>«Делал полировку и керамику. Машина выглядит как после выдачи из салона, отражение просто зеркало.»</p>
+            <div class="author">Игорь • BMW 5 Series</div>
+          </article>
+
+          <article class="card reveal">
+            <p>«Удобно, что расчет цены понятен сразу на сайте. Записался с телефона за минуту, без лишних звонков.»</p>
+            <div class="author">Андрей • Kia Sorento</div>
+          </article>
+
+          <article class="card reveal">
+            <p>«Химчистка салона сделана очень аккуратно, запаха химии нет, кожа стала как новая.»</p>
+            <div class="author">Мария • Mercedes GLC</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="blog">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Блог</span>
+            <h2>Контент для SEO и экспертности</h2>
+          </div>
+          <p>Статьи под НЧ-запросы: уход за салоном, защита кузова, выбор покрытий и сравнения.</p>
+        </div>
+
+        <div class="blog-grid">
+          <article class="card reveal">
+            <img class="blog-media" src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=900&q=70" alt="Кузов автомобиля после обработки" loading="lazy" />
+            <h3>Керамика или воск: что выбрать в 2026</h3>
+            <p>Разбираем срок службы, гидрофоб и стоимость владения на примере трех классов авто.</p>
+          </article>
+
+          <article class="card reveal">
+            <img class="blog-media" src="https://images.unsplash.com/photo-1502161254066-6c74afbf07aa?auto=format&fit=crop&w=900&q=70" alt="Уход за кожаным салоном" loading="lazy" />
+            <h3>5 ошибок при уходе за кожаным салоном</h3>
+            <p>Что портит кожу быстрее всего и как продлить срок службы без дорогостоящего ремонта.</p>
+          </article>
+
+          <article class="card reveal">
+            <img class="blog-media" src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=900&q=70" alt="Полировка автомобиля в сервисе" loading="lazy" />
+            <h3>Когда нужна полировка, а когда — перекрас</h3>
+            <p>Пошаговый чек-лист для оценки состояния ЛКП и выбора правильного сценария.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">FAQ</span>
+            <h2>Частые вопросы перед записью</h2>
+          </div>
+          <p>Минимум полей в форме, понятные сроки и прозрачные условия.</p>
+        </div>
+
+        <details class="reveal">
+          <summary>Сколько держится керамическое покрытие?</summary>
+          <p>В среднем 12-18 месяцев в зависимости от пробега, мойки и условий эксплуатации. Для продления эффекта рекомендуем сервисный осмотр каждые 4 месяца.</p>
+        </details>
+
+        <details class="reveal">
+          <summary>Можно ли оставить авто на ночь?</summary>
+          <p>Да, у нас охраняемая парковка и видеонаблюдение 24/7. Перед приемкой фиксируем состояние кузова и салона.</p>
+        </details>
+
+        <details class="reveal">
+          <summary>Нужна ли предоплата?</summary>
+          <p>Предоплата 20% требуется для длительных работ от 1 дня и для оклейки пленкой. Остаток — после приемки результата.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section booking" id="booking">
+      <div class="container booking-grid">
+        <article class="reveal">
+          <span class="eyebrow">Онлайн-запись</span>
+          <h2 style="margin-bottom:0.72rem;">Оставьте заявку за 1 минуту</h2>
+          <p style="max-width:55ch; margin-bottom:0.85rem;">
+            Форма адаптирована под mobile-first UX. При интеграции можно отправлять данные
+            в Bitrix24/amoCRM и запускать авто-уведомления в мессенджеры.
+          </p>
+          <div class="card">
+            <strong style="display:block; margin-bottom:0.4rem; font-family:Rajdhani,sans-serif;">Готово к интеграциям:</strong>
+            <p>GA4, Яндекс.Метрика, call-tracking, reCAPTCHA, cookie-banner, а также webhook для CRM и уведомлений.</p>
+          </div>
+        </article>
+
+        <form class="card reveal" id="bookingForm" novalidate>
+          <div class="field">
+            <label for="name">Имя</label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div class="field">
+            <label for="phone">Телефон</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required />
+          </div>
+
+          <div class="field">
+            <label for="car">Марка и модель</label>
+            <input id="car" name="car" type="text" placeholder="Например: BMW X5" required />
+          </div>
+
+          <div class="field">
+            <label for="service">Услуга</label>
+            <select id="service" name="service" required>
+              <option value="">Выберите услугу</option>
+              <option>Полировка кузова</option>
+              <option>Керамическая защита</option>
+              <option>Химчистка салона</option>
+              <option>Оклейка пленкой</option>
+              <option>Предпродажная подготовка</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="date">Желаемая дата</label>
+            <input id="date" name="date" type="date" required />
+          </div>
+
+          <div class="field">
+            <label for="comment">Комментарий (опционально)</label>
+            <textarea id="comment" name="comment" rows="3" placeholder="Например: есть глубокие царапины на двери"></textarea>
+          </div>
+
+          <label class="check" style="margin-bottom:0.5rem;">
+            <input type="checkbox" required />
+            Согласен(а) на обработку персональных данных
+          </label>
+
+          <button class="btn btn-primary" type="submit">Отправить заявку</button>
+          <div class="success" id="successMessage" aria-live="polite"></div>
+
+          <p class="legal">
+            Для продакшна добавьте страницы «Политика конфиденциальности» и «Согласие на cookies»,
+            плюс backend-валидацию и защиту от CSRF/XSS.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="contacts">
+      <div class="container contacts-grid">
+        <article class="card reveal">
+          <span class="eyebrow">Контакты</span>
+          <h2 style="margin-bottom:0.7rem;">AXIOM DETAIL CENTER</h2>
+          <p style="margin-bottom:0.55rem;">Москва, Ленинградский проспект, 37</p>
+          <p style="margin-bottom:0.55rem;">Ежедневно: 09:00-22:00</p>
+          <p style="margin-bottom:0.55rem;">Телефон: <a href="tel:+79995551122">+7 (999) 555-11-22</a></p>
+          <p>E-mail: <a href="mailto:service@axiom-detail.ru">service@axiom-detail.ru</a></p>
+          <a class="btn btn-ghost" style="margin-top:0.8rem;" href="https://maps.google.com/?q=Ленинградский+проспект+37+Москва" target="_blank" rel="noopener noreferrer">Построить маршрут</a>
+        </article>
+
+        <div class="map reveal" role="img" aria-label="Карта с расположением детейлинг-центра">
+          <div>
+            <strong style="display:block; margin-bottom:0.45rem; color:#1f2e3d;">Карта и геометка центра</strong>
+            <p style="margin-bottom:0.8rem; max-width:28ch;">Подключается через API Яндекс.Карт или Google Maps с кликабельным маршрутом.</p>
+            <a class="btn btn-primary" href="#booking">Записаться сейчас</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <span>© 2026 AXIOM DETAIL</span>
+      <span>AutoBodyShop schema • Lighthouse-ready • Mobile-first</span>
     </div>
-  </div>
-  <div class="hero-visual">
-    <!-- SVG автомобиля с отражениями (стилизованный) -->
-    <svg class="car-reflection" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="carGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#1e2f40" stop-opacity="0.9"/>
-          <stop offset="40%" stop-color="#2d445b" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="#0e1924" stop-opacity="0.8"/>
-        </linearGradient>
-        <linearGradient id="shine" x1="0" y1="0" x2="0.4" y2="1">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="8" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <!-- Кузов -->
-      <path d="M120 260 L140 170 L320 140 L480 140 L620 170 L680 260 L720 260 L700 330 L100 330 L120 260Z" fill="url(#carGrad)" stroke="#6d94b8" stroke-width="1.5" filter="url(#glow)"/>
-      <!-- Окна -->
-      <path d="M300 150 L340 210 L440 210 L440 150Z" fill="#101a24" opacity="0.9"/>
-      <path d="M460 150 L460 210 L580 200 L610 160Z" fill="#101a24" opacity="0.9"/>
-      <!-- Блики на кузове -->
-      <path d="M160 250 L220 180 L280 190 L200 260Z" fill="url(#shine)"/>
-      <path d="M580 190 L650 240 L620 280 L560 230Z" fill="url(#shine)" opacity="0.6"/>
-      <!-- Фары -->
-      <ellipse cx="135" cy="275" rx="14" ry="10" fill="#e6f2ff" filter="url(#glow)"/>
-      <ellipse cx="705" cy="275" rx="12" ry="9" fill="#ffddbb" filter="url(#glow)"/>
-      <!-- Колёса -->
-      <circle cx="250" cy="330" r="40" fill="#121212" stroke="#2e3b48" stroke-width="3"/>
-      <circle cx="250" cy="330" r="22" fill="#1f2c3a"/>
-      <circle cx="610" cy="330" r="40" fill="#121212" stroke="#2e3b48" stroke-width="3"/>
-      <circle cx="610" cy="330" r="22" fill="#1f2c3a"/>
-      <!-- Отражение на колёсах -->
-      <path d="M230 310 Q250 295 270 310" stroke="#aaccff" stroke-width="2" fill="none" opacity="0.5"/>
-      <path d="M590 310 Q610 295 630 310" stroke="#aaccff" stroke-width="2" fill="none" opacity="0.5"/>
-    </svg>
-  </div>
-</section>
+  </footer>
 
-<!-- Услуги -->
-<section>
-  <div class="container">
-    <h2 class="section-title hidden-init">совершенство <br>в деталях</h2>
-    <p class="section-sub hidden-init">Каждая услуга — это многоступенчатый процесс, возвращающий автомобилю заводской лоск и защиту.</p>
-    <div class="services-grid">
-      <div class="service-card hidden-init">
-        <i data-feather="droplet" class="service-icon" width="48" height="48" stroke-width="1.2"></i>
-        <h3>Керамика<br>9H</h3>
-        <p>Глубочайший блеск и гидрофоб. Защита от царапин и химии на 5 лет.</p>
-      </div>
-      <div class="service-card hidden-init">
-        <i data-feather="zap" class="service-icon" width="48" height="48" stroke-width="1.2"></i>
-        <h3>Жидкое<br>стекло</h3>
-        <p>Зеркальный эффект мокрого лака. Стойкость к ультрафиолету и реагентам.</p>
-      </div>
-      <div class="service-card hidden-init">
-        <i data-feather="shield" class="service-icon" width="48" height="48" stroke-width="1.2"></i>
-        <h3>Антигравийная<br>плёнка</h3>
-        <p>Невидимая броня кузова. Самозатягивающийся верхний слой.</p>
-      </div>
-    </div>
+  <div class="sticky" aria-label="Быстрые контакты">
+    <a href="tel:+79995551122" aria-label="Позвонить в центр">Call</a>
+    <a href="https://wa.me/79995551122" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">WA</a>
+    <a href="https://t.me/example" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">TG</a>
   </div>
-</section>
 
-<!-- Отражения / преимущества -->
-<section style="padding-top: 20px;">
-  <div class="container">
-    <div class="features">
-      <div class="feature-item hidden-init">
-        <div class="feature-number">12+</div>
-        <h4 style="font-weight: 400; margin-bottom: 8px;">лет опыта</h4>
-        <p style="color:#8da1bb">работаем с эксклюзивными авто</p>
-      </div>
-      <div class="feature-item hidden-init">
-        <div class="feature-number">100%</div>
-        <h4 style="font-weight: 400; margin-bottom: 8px;">ручная работа</h4>
-        <p style="color:#8da1bb">никаких автоматических моек</p>
-      </div>
-      <div class="feature-item hidden-init">
-        <div class="feature-number">∞</div>
-        <h4 style="font-weight: 400; margin-bottom: 8px;">бесконечный блеск</h4>
-        <p style="color:#8da1bb">отражения, доведённые до идеала</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navList = document.querySelector('.nav-list');
 
-<!-- Галерея блеска -->
-<section style="padding-top: 60px;">
-  <div class="container">
-    <div class="gallery-showcase">
-      <div class="gallery-item hidden-init" style="background: radial-gradient(circle at 30% 40%, #2b4055, #0e1722);"></div>
-      <div class="gallery-item hidden-init" style="background: radial-gradient(circle at 70% 60%, #1e3140, #050a10);"></div>
-      <div class="gallery-item hidden-init" style="background: radial-gradient(circle at 20% 70%, #263b4e, #0b131e);"></div>
-    </div>
-  </div>
-</section>
+    menuToggle.addEventListener('click', () => {
+      const opened = navList.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(opened));
+      menuToggle.textContent = opened ? '✕' : '☰';
+    });
 
-<!-- Футер -->
-<footer class="footer">
-  <div class="container footer-content">
-    <span>© 2025 REFLECT ATELIER</span>
-    <span>Москва, Бережковская наб.</span>
-  </div>
-</footer>
+    document.querySelectorAll('.nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        navList.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.textContent = '☰';
+      });
+    });
 
-<script>
-  // Инициализация иконок Feather
-  feather.replace();
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const caseCards = document.querySelectorAll('.compare-card');
 
-  // Наблюдатель за появлением элементов (fade-in анимации)
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible-animate');
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.filter;
+
+        filterButtons.forEach((item) => item.setAttribute('aria-pressed', 'false'));
+        button.setAttribute('aria-pressed', 'true');
+
+        caseCards.forEach((card) => {
+          card.hidden = !(category === 'all' || card.dataset.category === category);
+        });
+      });
+    });
+
+    document.querySelectorAll('.compare').forEach((compare) => {
+      const range = compare.querySelector('.compare-range');
+      range.addEventListener('input', () => {
+        compare.style.setProperty('--pos', `${range.value}%`);
+      });
+    });
+
+    const classConfig = {
+      sedan: { label: 'Седан / хэтчбек', factor: 1 },
+      suv: { label: 'Кроссовер / SUV', factor: 1.18 },
+      premium: { label: 'Премиум / большой SUV', factor: 1.35 }
+    };
+
+    const classSelect = document.getElementById('carClass');
+    const serviceChecks = document.querySelectorAll('[data-service]');
+    const expressCheck = document.getElementById('express');
+
+    const summaryClass = document.getElementById('summaryClass');
+    const summaryCount = document.getElementById('summaryCount');
+    const summaryPrice = document.getElementById('summaryPrice');
+    const money = new Intl.NumberFormat('ru-RU');
+
+    function calcPrice() {
+      const classData = classConfig[classSelect.value];
+      let base = 0;
+      let checkedCount = 0;
+
+      serviceChecks.forEach((item) => {
+        if (item.checked) {
+          base += Number(item.dataset.service);
+          checkedCount += 1;
+        }
+      });
+
+      if (checkedCount === 0) {
+        checkedCount = 1;
+        base = 2900;
       }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.hidden-init').forEach(el => observer.observe(el));
-  // Также заголовки и др.
-  document.querySelectorAll('.hero-content, .section-title, .section-sub, .service-card, .feature-item, .gallery-item').forEach(el => {
-    if (!el.classList.contains('hidden-init')) el.classList.add('hidden-init');
-    observer.observe(el);
-  });
+      let total = Math.round(base * classData.factor);
 
-  // ========== CANVAS: МЕРЦАЮЩИЕ БЛИКИ (ОТРАЖЕНИЯ) ==========
-  const canvas = document.getElementById('sparkleCanvas');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
+      if (expressCheck.checked) {
+        total = Math.round(total * 1.2);
+      }
 
-  function resizeCanvas() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  // Генерация частиц-бликов
-  const PARTICLE_COUNT = 60;
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: 1 + Math.random() * 4,
-      speedX: (Math.random() - 0.5) * 0.2,
-      speedY: (Math.random() - 0.5) * 0.1,
-      alpha: 0.05 + Math.random() * 0.3,
-      pulse: Math.random() * 0.02,
-      phase: Math.random() * 10
-    });
-  }
-
-  function drawSparkles() {
-    ctx.clearRect(0, 0, width, height);
-    ctx.shadowBlur = 20;
-    ctx.shadowColor = '#b0d6ff';
-
-    for (let p of particles) {
-      // плавное движение
-      p.x += p.speedX;
-      p.y += p.speedY;
-      
-      // мерцание
-      let alphaVar = p.alpha + Math.sin(Date.now() * 0.002 + p.phase) * 0.08;
-      alphaVar = Math.max(0.02, Math.min(0.5, alphaVar));
-      
-      // телепорт при выходе за границы
-      if (p.x < -20) p.x = width + 20;
-      if (p.x > width + 20) p.x = -20;
-      if (p.y < -20) p.y = height + 20;
-      if (p.y > height + 20) p.y = -20;
-
-      // рисуем звездочку/блик
-      ctx.beginPath();
-      const gradient = ctx.createRadialGradient(p.x-2, p.y-2, 1, p.x, p.y, p.radius*2);
-      gradient.addColorStop(0, `rgba(220, 240, 255, ${alphaVar})`);
-      gradient.addColorStop(1, `rgba(150, 200, 255, 0)`);
-      ctx.fillStyle = gradient;
-      ctx.arc(p.x, p.y, p.radius * 1.8, 0, Math.PI * 2);
-      ctx.fill();
-      
-      // центральная точка
-      ctx.shadowBlur = 25;
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(255, 255, 255, ${alphaVar*1.5})`;
-      ctx.arc(p.x, p.y, p.radius*0.7, 0, 2*Math.PI);
-      ctx.fill();
+      summaryClass.textContent = classData.label;
+      summaryCount.textContent = String(checkedCount);
+      summaryPrice.textContent = `${money.format(total)} ₽`;
     }
-    
-    // дополнительные линии отражений
-    ctx.shadowBlur = 0;
-    ctx.globalAlpha = 0.12;
-    ctx.strokeStyle = '#b8d6ff';
-    ctx.lineWidth = 1.5;
-    for (let i=0; i<3; i++) {
-      ctx.beginPath();
-      ctx.moveTo(width*0.2 + i*120, 0);
-      ctx.lineTo(width*0.8 + i*60, height);
-      ctx.stroke();
-    }
-    ctx.globalAlpha = 1.0;
-    
-    requestAnimationFrame(drawSparkles);
-  }
 
-  drawSparkles();
+    classSelect.addEventListener('change', calcPrice);
+    expressCheck.addEventListener('change', calcPrice);
+    serviceChecks.forEach((item) => item.addEventListener('change', calcPrice));
+    calcPrice();
 
-  // При ресайзе обновим позиции частиц, чтобы не вылезали
-  window.addEventListener('resize', () => {
-    particles.forEach(p => {
-      p.x = Math.min(width, Math.max(0, p.x));
-      p.y = Math.min(height, Math.max(0, p.y));
+    const dateInput = document.getElementById('date');
+    const now = new Date();
+    const localToday = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    dateInput.min = localToday;
+
+    const form = document.getElementById('bookingForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const name = document.getElementById('name').value.trim();
+      successMessage.textContent = `Спасибо, ${name}! Заявка принята, менеджер свяжется с вами для подтверждения.`;
+      form.reset();
+      calcPrice();
     });
-  });
 
-  // Дополнительный эффект: блик при движении мыши (отражение)
-  document.addEventListener('mousemove', (e) => {
-    const x = e.clientX / width;
-    const y = e.clientY / height;
-    const carSvg = document.querySelector('.car-reflection');
-    if (carSvg) {
-      carSvg.style.transform = `translate(${(x-0.5)*8}px, ${(y-0.5)*6}px) rotate(${(x-0.5)*1.5}deg)`;
-    }
-  });
-</script>
+    const revealItems = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries, io) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
 
-<!-- небольшая задержка, чтобы анимации успели подгрузиться -->
-<style>
-  .car-reflection { transition: transform 0.2s ease-out; }
-  .hidden-init { opacity: 0; transform: translateY(40px); }
-  .visible-animate { opacity: 1 !important; transform: translateY(0) !important; }
-  /* фикс для мобильных */
-  @media (max-width: 800px) {
-    .hero-visual { opacity: 0.5; width: 80%; }
-    .hero-title { font-size: 3rem; }
-  }
-</style>
-
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
 </body>
 </html>
